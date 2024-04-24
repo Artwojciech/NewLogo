@@ -34,6 +34,7 @@ MUL_SELF:       '*=';
 DIV_SELF:       '/=';
 INCREMENT:      '++';
 DECREMENT:      '--';
+COMMA:           ',';
 
 // variable:
 VARIABLE: [a-zA-Z_][a-zA-Z0-9_]*;

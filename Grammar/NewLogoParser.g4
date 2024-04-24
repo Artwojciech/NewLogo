@@ -1,6 +1,7 @@
 parser grammar NewLogoParser;
 options { tokenVocab=NewLogoLexer; }
 
+// Math:
 sumOp
 : PLUS
 | MINUS;
@@ -10,11 +11,89 @@ mulOp
 | DIVIDE
 | MODULO;
 
-atom: MINUS? NUMBER;
+atom
+: MINUS? NUMBER;
 
-mulExpression
-: atom (mulOp atom)*;
+brExpression: LBRACKET expression RBRACKET;
 
-expression
-: NUMBER
-| mulExpression sumOp mulExpression;
+mulExpression: (atom | brExpression | VARIABLE) (mulOp (atom | brExpression | VARIABLE))*;
+
+expression: mulExpression (sumOp mulExpression)*;
+
+
+// Boolean math:
+boolConst
+: TRUE
+| FALSE;
+
+compOp
+: LESSER
+| GREATER
+| LESSER_EQUAL
+| GREATER_EQUAL
+| EQUAL
+| NOT_EQUAL;
+
+compExpression: (boolConst | VARIABLE) (compOp (boolConst | VARIABLE))?;
+
+logicOp
+: AND
+| OR;
+
+logicBrExpression: LBRACKET logicExpression RBRACKET;
+
+logicExpression
+: compExpression
+| NOT? (expression | logicBrExpression) (logicOp expression)*;
+
+// Variables:
+varType
+: INT
+| BOOL
+| CHAR
+| STRING;
+
+varDeclaration: varType VARIABLE;
+
+value
+: expression
+| logicExpression
+| STRING
+| CHAR;
+
+selfOp
+: INC_SELF
+| DEC_SELF
+| MUL_SELF
+| DIV_SELF;
+
+varAssign: VARIABLE ((ASSIGN value) | selfOp expression);
+
+incOrDec
+: INCREMENT
+| DECREMENT;
+
+varIncrement: VARIABLE incOrDec;
+
+// Functions:
+argument: varType VARIABLE;
+
+arguments: argument (COMMA argument)*;
+
+function: varType VARIABLE LBRACKET arguments RBRACKET LCURLY statement* RCURLY;
+
+//Loops and Ifs
+statement : expression | conditionalStatement | loopStatement | breakStatement | returnStatement ;
+
+conditionalStatement : IF LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY
+           | IF LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY ELSE LCURLY statement* RCURLY;
+
+loopStatement : WHILE LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY
+         | REPEAT LBRACKET expression RBRACKET LCURLY statement* RCURLY;
+
+breakStatement : BREAK;
+
+returnStatement : RETURN expression;
+
+printStatement : PRINT expression | PRINT logicExpression | PRINT STRING | PRINT CHAR ;
+
