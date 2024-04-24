@@ -64,7 +64,7 @@ RCURLY          : '}';
 
 // spaces:
 WHITESPACE: [ \t]+ -> skip;
-NEWLINE: ('\r\n'|'\n'|'\r');
+NEWLINE: ('\r\n'|'\n'|'\r') -> skip;
 
 // loops:
 REPEAT            : 'repeat';

@@ -91,10 +91,9 @@ callArguments: value (COMMA value)*;
 functionCall: function LBRACKET callArguments RBRACKET;
 
 //Loops and Ifs
-statement : expression | conditionalStatement | loopStatement | breakStatement | returnStatement ;
+statement : expression | conditionalStatement | loopStatement | breakStatement | returnStatement | function;
 
-conditionalStatement : IF LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY
-           | IF LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY ELSE LCURLY statement* RCURLY;
+conditionalStatement : IF LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY (ELSE LCURLY statement* RCURLY)?;
 
 loopStatement : WHILE LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY
          | REPEAT LBRACKET expression RBRACKET LCURLY statement* RCURLY;
