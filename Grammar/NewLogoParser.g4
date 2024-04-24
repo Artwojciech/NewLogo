@@ -80,7 +80,15 @@ argument: varType VARIABLE;
 
 arguments: argument (COMMA argument)*;
 
-function: varType VARIABLE LBRACKET arguments RBRACKET LCURLY statement* RCURLY;
+funcDeclare: varType VARIABLE LBRACKET arguments RBRACKET LCURLY statement* RCURLY;
+
+drawingFunction: FORWARD | RTURN | LTURN | LINECOL | LINEWIDTH | CHANGEBACK | CLEAR | ISBORDER;
+
+function: VARIABLE | drawingFunction;
+
+callArguments: value (COMMA value)*;
+
+functionCall: function LBRACKET callArguments RBRACKET;
 
 //Loops and Ifs
 statement : expression | conditionalStatement | loopStatement | breakStatement | returnStatement ;
@@ -96,4 +104,3 @@ breakStatement : BREAK;
 returnStatement : RETURN expression;
 
 printStatement : PRINT expression | PRINT logicExpression | PRINT STRING | PRINT CHAR ;
-
