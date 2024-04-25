@@ -14,11 +14,11 @@ mulOp
 atom
 : MINUS? NUMBER;
 
-brExpression: LBRACKET expression RBRACKET;
+brExpression: LBRACKET mathExpression RBRACKET;
 
 mulExpression: (atom | brExpression | VARIABLE) (mulOp (atom | brExpression | VARIABLE))*;
 
-expression: mulExpression (sumOp mulExpression)*;
+mathExpression: mulExpression (sumOp mulExpression)*;
 
 
 // Boolean math:
@@ -44,7 +44,7 @@ logicBrExpression: LBRACKET logicExpression RBRACKET;
 
 logicExpression
 : compExpression
-| NOT? (expression | logicBrExpression) (logicOp expression)*;
+| NOT? (mathExpression | logicBrExpression) (logicOp mathExpression)*;
 
 // Variables:
 varType
@@ -56,7 +56,7 @@ varType
 varDeclaration: varType VARIABLE;
 
 value
-: expression
+: mathExpression
 | logicExpression
 | STRING
 | CHAR;
@@ -67,7 +67,7 @@ selfOp
 | MUL_SELF
 | DIV_SELF;
 
-varAssign: VARIABLE ((ASSIGN value) | selfOp expression);
+varAssign: VARIABLE ((ASSIGN value) | selfOp mathExpression);
 
 incOrDec
 : INCREMENT
@@ -91,15 +91,15 @@ callArguments: value (COMMA value)*;
 functionCall: function LBRACKET callArguments RBRACKET;
 
 //Loops and Ifs
-statement : expression | conditionalStatement | loopStatement | breakStatement | returnStatement | function;
+statement : (mathExpression | conditionalStatement | loopStatement | breakStatement | returnStatement | functionCall) SEMICOLON;
 
 conditionalStatement : IF LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY (ELSE LCURLY statement* RCURLY)?;
 
 loopStatement : WHILE LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY
-         | REPEAT LBRACKET expression RBRACKET LCURLY statement* RCURLY;
+         | REPEAT LBRACKET mathExpression RBRACKET LCURLY statement* RCURLY;
 
 breakStatement : BREAK;
 
-returnStatement : RETURN expression;
+returnStatement : RETURN mathExpression;
 
-printStatement : PRINT expression | PRINT logicExpression | PRINT STRING | PRINT CHAR ;
+printStatement : PRINT mathExpression | PRINT logicExpression | PRINT STRING | PRINT CHAR ;
