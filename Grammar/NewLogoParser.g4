@@ -1,6 +1,8 @@
 parser grammar NewLogoParser;
 options { tokenVocab=NewLogoLexer; }
 
+program: funcDeclare* statement*;
+
 // Math:
 sumOp
 : PLUS
