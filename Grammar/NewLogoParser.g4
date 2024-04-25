@@ -100,6 +100,6 @@ loopStatement : WHILE LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY
 
 breakStatement : BREAK;
 
-returnStatement : RETURN mathExpression;
+returnStatement : RETURN (mathExpression | conditionalStatement | STRING | CHAR | VARIABLE);
 
 printStatement : PRINT mathExpression | PRINT logicExpression | PRINT STRING | PRINT CHAR ;
