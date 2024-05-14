@@ -60,8 +60,9 @@ varDeclaration: varType VARIABLE;
 value
 : mathExpression
 | logicExpression
-| STRING
-| CHAR;
+| STRING_CONST
+| CHAR_CONST
+| VARIABLE;
 
 selfOp
 : INC_SELF
