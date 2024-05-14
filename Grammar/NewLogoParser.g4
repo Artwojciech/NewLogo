@@ -1,7 +1,7 @@
 parser grammar NewLogoParser;
 options { tokenVocab=NewLogoLexer; }
 
-program: funcDeclare* statement*;
+program: funcDefinition* statement*;
 
 // Math:
 sumOp
@@ -82,7 +82,7 @@ argument: varType VARIABLE;
 
 arguments: argument (COMMA argument)*;
 
-funcDeclare: varType VARIABLE LBRACKET arguments RBRACKET LCURLY statement* RCURLY;
+funcDefinition: varType VARIABLE LBRACKET arguments RBRACKET LCURLY statement* RCURLY;
 
 drawingFunction: FORWARD | RTURN | LTURN | LINECOL | LINEWIDTH | CHANGEBACK | CLEAR | ISBORDER;
 
