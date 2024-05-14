@@ -1,4 +1,5 @@
 // Generated from C:/Users/macie/OneDrive/Dokumenty/kompilatory/NewLogo/antlr/NewLogoParser.g4 by ANTLR 4.13.1
+package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
