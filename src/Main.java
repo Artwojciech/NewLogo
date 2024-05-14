@@ -19,11 +19,13 @@ class Main {
             TokenStream tokenStream = new CommonTokenStream(lexer);
 
             NewLogoParser parser = new NewLogoParser(tokenStream);
-            ParseTree tree = parser.program();
-
-            System.out.println(tree.toStringTree(parser));
+            Listener listener = new Listener();
+            parser.addParseListener(listener);
             
-        } catch (IOException e) {
+            parser.program();
+
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
