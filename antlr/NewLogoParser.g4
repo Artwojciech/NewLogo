@@ -55,7 +55,7 @@ varType
 | CHAR
 | STRING;
 
-varDeclaration: varType VARIABLE;
+varDeclaration: varType VARIABLE (ASSIGN value)?;
 
 value
 : mathExpression
@@ -94,7 +94,7 @@ callArguments: value (COMMA value)*;
 functionCall: function LBRACKET callArguments RBRACKET;
 
 //Loops and Ifs
-statement : (mathExpression | conditionalStatement | loopStatement | breakStatement | returnStatement | functionCall) SEMICOLON;
+statement : (mathExpression | conditionalStatement | loopStatement | breakStatement | returnStatement | functionCall | varDeclaration | varAssign) SEMICOLON;
 
 conditionalStatement : IF LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY (ELSE LCURLY statement* RCURLY)?;
 
