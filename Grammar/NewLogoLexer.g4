@@ -2,8 +2,8 @@ lexer grammar NewLogoLexer;
 
 // constants:
 NUMBER: [0-9]+;
-CHAR_CONST: '\''[a-zA-Z_]'\'';
-STRING_CONST: '"'[a-zA-Z_]*'"';
+CHAR_CONST: '\''[a-zA-Z0-9_!?.]'\'';
+STRING_CONST: '"'[a-zA-Z0-9_!?.]*'"';
 TRUE
 : 'True'
 | 'true';
