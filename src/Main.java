@@ -7,7 +7,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 
 class Main {
@@ -23,7 +22,6 @@ class Main {
             parser.addParseListener(listener);
             
             parser.program();
-
         }
         catch (IOException e) {
             e.printStackTrace();

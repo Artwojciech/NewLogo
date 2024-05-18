@@ -37,6 +37,16 @@ DECREMENT:      '--';
 COMMA:           ',';
 SEMICOLON:       ';';
 
+// drawing:
+FORWARD    : 'forward';
+LTURN      : 'lturn';
+RTURN      : 'rturn';
+LINECOL   : 'linecol';
+LINEWIDTH   : 'linewidth';
+CHANGEBG   : 'changebg';
+CLEAR       : 'clear';
+ISBORDER    : 'isborder';
+
 // variable:
 VARIABLE: [a-zA-Z_][a-zA-Z0-9_]*;
 
@@ -45,17 +55,6 @@ INT: 'int';
 CHAR: 'char';
 STRING: 'string';
 BOOL: 'bool';
-
-
-// drawing:
-FORWARD    : 'forward';
-LTURN      : 'lturn';
-RTURN      : 'rturn';
-LINECOL   : 'linecol';
-LINEWIDTH   : 'linewidth';
-CHANGEBACK   : 'changeback';
-CLEAR       : 'clear';
-ISBORDER    : 'isborder';
 
 // brackets:
 LBRACKET        : '(';

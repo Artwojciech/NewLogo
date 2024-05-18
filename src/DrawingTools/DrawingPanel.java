@@ -70,9 +70,11 @@ public class DrawingPanel extends JPanel {
         commandField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String command = commandField.getText();
+                String input = commandField.getText();
+                String command = input.substring(0, input.indexOf("("));
+                String arguments = input.substring(input.indexOf("(")+1, input.length()-1);
                 commandField.setText("");
-                processCommand(panel, command);
+                processCommand(panel, command, arguments);
             }
         });
 
@@ -85,27 +87,32 @@ public class DrawingPanel extends JPanel {
         return panel;
     }
 
-    private static void processCommand(DrawingPanel panel, String command) {
+    public static void processCommand(DrawingPanel panel, String command, String arguments) {
         // Przetwarzanie wprowadzonych poleceń
         if (command.startsWith("forward")) {
-            panel.forward();
+            try {
+                double distance = Double.parseDouble(arguments);
+                panel.forward(distance);
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException ex) {
+                System.out.println("Błędny format polecenia forward");
+            }
         } else if (command.startsWith("rturn")) {
             try {
-                double angle = Double.parseDouble(command.split(" ")[1]);
+                double angle = Double.parseDouble(arguments);
                 panel.rturn(angle);
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException ex) {
                 System.out.println("Błędny format polecenia rturn");
             }
         } else if (command.startsWith("lturn")) {
             try {
-                double angle = Double.parseDouble(command.split(" ")[1]);
+                double angle = Double.parseDouble(arguments);
                 panel.lturn(angle);
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException ex) {
                 System.out.println("Błędny format polecenia lturn");
             }
         } else if (command.startsWith("linecol")) {
             try {
-                String colorName = command.split(" ")[1].toUpperCase();
+                String colorName = arguments.toUpperCase();
                 Color color = (Color) Color.class.getField(colorName).get(null);
                 panel.linecol(color);
             } catch (Exception ex) {
@@ -113,16 +120,16 @@ public class DrawingPanel extends JPanel {
             }
         } else if (command.startsWith("linewidth")) {
             try {
-                int width = Integer.parseInt(command.split(" ")[1]);
+                int width = Integer.parseInt(arguments);
                 panel.linewidth(width);
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException ex) {
                 System.out.println("Błędny format polecenia linewidth");
             }
-        } else if (command.startsWith("changeback")) {
+        } else if (command.startsWith("changebg")) {
             try {
-                String colorName = command.split(" ")[1].toUpperCase();
+                String colorName = arguments.toUpperCase();
                 Color color = (Color) Color.class.getField(colorName).get(null);
-                panel.changeback(color);
+                panel.changebg(color);
             } catch (Exception ex) {
                 System.out.println("Błędny kolor");
             }
@@ -133,10 +140,10 @@ public class DrawingPanel extends JPanel {
         }
     }
 
-    public void forward() {
+    public void forward(double distance) {
         // Obliczenie nowej pozycji kursora
-        int newX = x + (int) (unitLength * Math.cos(angle));
-        int newY = y - (int) (unitLength * Math.sin(angle)); // Ujemne, ponieważ oś Y rośnie w dół
+        int newX = x + (int) (unitLength * Math.cos(angle) * distance);
+        int newY = y - (int) (unitLength * Math.sin(angle) * distance); // Ujemne, ponieważ oś Y rośnie w dół
 
         // Dodanie nowej linii do listy
         lines.add(new Line(x, y, newX, newY, lineColor, lineWidth));
@@ -176,7 +183,7 @@ public class DrawingPanel extends JPanel {
         }
     }
 
-    public void changeback(Color color) {
+    public void changebg(Color color) {
         // Sprawdzanie, czy kolor jest na liście popularnych kolorów
         if (popularColors.contains(color)) {
             this.backgroundColor = color;
@@ -213,10 +220,6 @@ public class DrawingPanel extends JPanel {
             g2.setStroke(new BasicStroke(line.width));
             g2.drawLine(line.x1, line.y1, line.x2, line.y2);
         }
-    }
-
-    public static void main(String[] args) {
-        DrawingPanel panel = createPanel(400, 400);
     }
 }
 

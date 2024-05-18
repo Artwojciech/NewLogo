@@ -85,11 +85,11 @@ arguments: argument (COMMA argument)*;
 
 funcDefinition: varType VARIABLE LBRACKET arguments RBRACKET LCURLY statement* RCURLY;
 
-drawingFunction: FORWARD | RTURN | LTURN | LINECOL | LINEWIDTH | CHANGEBACK | CLEAR | ISBORDER;
+drawingFunction: FORWARD | RTURN | LTURN | LINECOL | LINEWIDTH | CHANGEBG | CLEAR | ISBORDER;
 
 function: VARIABLE | drawingFunction;
 
-callArguments: value (COMMA value)*;
+callArguments: (value (COMMA value)*)?;
 
 functionCall: function LBRACKET callArguments RBRACKET;
 
