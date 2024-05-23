@@ -36,7 +36,16 @@ compOp
 | EQUAL
 | NOT_EQUAL;
 
-compExpression: (boolConst | VARIABLE) (compOp (boolConst | VARIABLE))?;
+compVal
+: NUMBER
+| boolConst
+| VARIABLE
+| STRING_CONST
+| CHAR_CONST
+| mathExpression;
+
+compExpression
+: compVal compOp compVal;
 
 logicOp
 : AND
@@ -44,9 +53,7 @@ logicOp
 
 logicBrExpression: LBRACKET logicExpression RBRACKET;
 
-logicExpression
-: compExpression
-| NOT? (mathExpression | logicBrExpression) (logicOp mathExpression)*;
+logicExpression: NOT? (compExpression | logicBrExpression | boolConst) (logicOp logicExpression)*;
 
 // Variables:
 varType
@@ -58,11 +65,11 @@ varType
 varDeclaration: varType VARIABLE (ASSIGN value)?;
 
 value
-: mathExpression
-| logicExpression
-| STRING_CONST
+: STRING_CONST
 | CHAR_CONST
-| VARIABLE;
+| VARIABLE
+| mathExpression
+| logicExpression;
 
 selfOp
 : INC_SELF
@@ -94,7 +101,9 @@ callArguments: (value (COMMA value)*)?;
 functionCall: function LBRACKET callArguments RBRACKET;
 
 //Loops and Ifs
-statement : (mathExpression | conditionalStatement | loopStatement | breakStatement | returnStatement | functionCall | varDeclaration | varAssign) SEMICOLON;
+statement
+: (mathExpression | conditionalStatement | loopStatement | breakStatement | returnStatement | functionCall | varDeclaration | varAssign) SEMICOLON
+| (conditionalStatement | loopStatement);
 
 conditionalStatement : IF LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY (ELSE LCURLY statement* RCURLY)?;
 

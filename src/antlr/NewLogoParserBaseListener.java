@@ -125,6 +125,18 @@ public class NewLogoParserBaseListener implements NewLogoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCompVal(NewLogoParser.CompValContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCompVal(NewLogoParser.CompValContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCompExpression(NewLogoParser.CompExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}

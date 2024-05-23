@@ -98,6 +98,16 @@ public interface NewLogoParserListener extends ParseTreeListener {
 	 */
 	void exitCompOp(NewLogoParser.CompOpContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link NewLogoParser#compVal}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompVal(NewLogoParser.CompValContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link NewLogoParser#compVal}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompVal(NewLogoParser.CompValContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link NewLogoParser#compExpression}.
 	 * @param ctx the parse tree
 	 */

@@ -65,6 +65,12 @@ public interface NewLogoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCompOp(NewLogoParser.CompOpContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link NewLogoParser#compVal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompVal(NewLogoParser.CompValContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link NewLogoParser#compExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
