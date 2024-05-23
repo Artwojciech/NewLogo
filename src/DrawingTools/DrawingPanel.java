@@ -73,6 +73,7 @@ public class DrawingPanel extends JPanel {
                 String input = commandField.getText();
                 String command = input.substring(0, input.indexOf("("));
                 String arguments = input.substring(input.indexOf("(")+1, input.length()-1);
+                if(arguments.startsWith("\"")) arguments = arguments.substring(1, arguments.length()-1);
                 commandField.setText("");
                 processCommand(panel, command, arguments);
             }
