@@ -1,8 +1,8 @@
 linewidth(2);
-changebg(black);
-linecol(red);
+changebg("black");
+linecol("red");
 forward(10);
 rturn(10);
 forward(10);
-lturn(90)
-forward(20);
+lturn(90);
+forward(200);
