@@ -18,10 +18,13 @@ atom
 
 brExpression: LBRACKET mathExpression RBRACKET;
 
-mulExpression: (atom | brExpression | variable) (mulOp (atom | brExpression | variable))*;
+mulExpression: (atom | brExpression) (mulOp (atom | brExpression | variable))*
+| variable (mulOp (atom | brExpression | variable))+;
 
 mathExpression: mulExpression (sumOp mulExpression)*;
 
+string: STRING_CONST (PLUS STRING_CONST|CHAR_CONST)*
+| CHAR_CONST PLUS (STRING_CONST|CHAR_CONST)+;
 
 // Boolean math:
 boolConst
@@ -67,7 +70,7 @@ varType
 varDeclaration: varType variable (ASSIGN value)?;
 
 value
-: STRING_CONST
+: string
 | CHAR_CONST
 | variable
 | mathExpression
@@ -79,7 +82,9 @@ selfOp
 | MUL_SELF
 | DIV_SELF;
 
-varAssign: variable ((ASSIGN value) | selfOp mathExpression);
+varAssign: variable ASSIGN value;
+
+varSelfOp: variable selfOp value;
 
 incOrDec
 : INCREMENT
@@ -104,7 +109,7 @@ functionCall: function LBRACKET callArguments RBRACKET;
 
 //Loops and Ifs
 statement
-: (mathExpression | conditionalStatement | loopStatement | breakStatement | returnStatement | functionCall | varDeclaration | varAssign) SEMICOLON
+: (mathExpression | conditionalStatement | loopStatement | breakStatement | returnStatement | functionCall | varDeclaration | varAssign | varIncrement | varSelfOp) SEMICOLON
 | (conditionalStatement | loopStatement);
 
 conditionalStatement : IF LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY (ELSE LCURLY statement* RCURLY)?;

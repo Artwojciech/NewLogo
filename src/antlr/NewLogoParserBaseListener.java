@@ -101,6 +101,18 @@ public class NewLogoParserBaseListener implements NewLogoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterString(NewLogoParser.StringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitString(NewLogoParser.StringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBoolConst(NewLogoParser.BoolConstContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -252,6 +264,18 @@ public class NewLogoParserBaseListener implements NewLogoParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVarAssign(NewLogoParser.VarAssignContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVarSelfOp(NewLogoParser.VarSelfOpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVarSelfOp(NewLogoParser.VarSelfOpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

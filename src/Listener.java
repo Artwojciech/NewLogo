@@ -37,7 +37,7 @@ public class Listener extends NewLogoParserBaseListener {
                         return;
                     }
                 }
-                else if(val.STRING_CONST() != null || val.CHAR_CONST() != null) {
+                else if(val.string() != null || val.CHAR_CONST() != null) {
                     argument = val.getText();
                     argument = argument.substring(1, argument.length()-1);
                 }
@@ -78,7 +78,7 @@ public class Listener extends NewLogoParserBaseListener {
                 return;
             }
         }
-        else if(ctx.value().STRING_CONST() != null || ctx.value().CHAR_CONST() != null) {
+        else if(ctx.value().string() != null || ctx.value().CHAR_CONST() != null) {
             value = ctx.value().getText();
             value = value.substring(1, value.length()-1);
         }

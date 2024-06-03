@@ -7,7 +7,7 @@ public class Value {
     }
     
     private final ValueType type;
-    private final String value;
+    private String value;
     
     public Value(ValueType type, String value) {
         this.type = type;
@@ -33,7 +33,11 @@ public class Value {
     public ValueType getType() {
         return type;
     }
-    
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     public String getValue() {
         return value;
     }
@@ -113,6 +117,16 @@ public class Value {
         }
         else {
             System.err.println("Cannot multiply values of these types!");
+            return new Value(0);
+        }
+    }
+    
+    public static Value divide(Value value1, Value value2) {
+        if (value1.getType() == ValueType.INT && value2.getType() == ValueType.INT) {
+            return new Value(value1.getInt() / value2.getInt());
+        }
+        else {
+            System.err.println("Cannot divide values of these types!");
             return new Value(0);
         }
     }

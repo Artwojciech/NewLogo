@@ -78,6 +78,16 @@ public interface NewLogoParserListener extends ParseTreeListener {
 	 */
 	void exitMathExpression(NewLogoParser.MathExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link NewLogoParser#string}.
+	 * @param ctx the parse tree
+	 */
+	void enterString(NewLogoParser.StringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link NewLogoParser#string}.
+	 * @param ctx the parse tree
+	 */
+	void exitString(NewLogoParser.StringContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link NewLogoParser#boolConst}.
 	 * @param ctx the parse tree
 	 */
@@ -207,6 +217,16 @@ public interface NewLogoParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVarAssign(NewLogoParser.VarAssignContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link NewLogoParser#varSelfOp}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarSelfOp(NewLogoParser.VarSelfOpContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link NewLogoParser#varSelfOp}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarSelfOp(NewLogoParser.VarSelfOpContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link NewLogoParser#incOrDec}.
 	 * @param ctx the parse tree

@@ -53,6 +53,12 @@ public interface NewLogoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMathExpression(NewLogoParser.MathExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link NewLogoParser#string}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString(NewLogoParser.StringContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link NewLogoParser#boolConst}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -130,6 +136,12 @@ public interface NewLogoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVarAssign(NewLogoParser.VarAssignContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link NewLogoParser#varSelfOp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarSelfOp(NewLogoParser.VarSelfOpContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link NewLogoParser#incOrDec}.
 	 * @param ctx the parse tree
