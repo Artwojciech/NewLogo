@@ -84,4 +84,36 @@ public class Value {
         
         return Boolean.parseBoolean(value);
     }
+
+    public static Value add(Value value1, Value value2) {
+        if (value1.getType() == ValueType.INT && value2.getType() == ValueType.INT) {
+            return new Value(value1.getInt() + value2.getInt());
+        }
+        else if (value1.getType() == ValueType.STRING && value2.getType() == ValueType.STRING) {
+            return new Value(value1.getString() + value2.getString());
+        }
+        else if (value1.getType() == ValueType.CHAR && value2.getType() == ValueType.CHAR) {
+            return new Value(value1.getChar() + value2.getChar());
+        }
+        else if (value1.getType() == ValueType.BOOL && value2.getType() == ValueType.BOOL) {
+            return new Value(value1.getBool() || value2.getBool());
+        }
+        else {
+            System.err.println("Cannot add values of different types!");
+            return new Value(0);
+        }
+    }
+    
+    public static Value multiply(Value value1, Value value2) {
+        if (value1.getType() == ValueType.INT && value2.getType() == ValueType.INT) {
+            return new Value(value1.getInt() * value2.getInt());
+        }
+        else if (value1.getType() == ValueType.BOOL && value2.getType() == ValueType.BOOL) {
+            return new Value(value1.getBool() && value2.getBool());
+        }
+        else {
+            System.err.println("Cannot multiply values of these types!");
+            return new Value(0);
+        }
+    }
 }
