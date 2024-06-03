@@ -116,4 +116,12 @@ public class Value {
             return new Value(0);
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Value v) {
+            return this.type == v.type && this.value.equals(v.value);
+        }
+        return false;
+    }
 }
