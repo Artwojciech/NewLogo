@@ -95,6 +95,12 @@ public interface NewLogoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLogicExpression(NewLogoParser.LogicExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link NewLogoParser#variable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariable(NewLogoParser.VariableContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link NewLogoParser#varType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

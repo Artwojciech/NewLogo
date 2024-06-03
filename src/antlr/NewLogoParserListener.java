@@ -148,6 +148,16 @@ public interface NewLogoParserListener extends ParseTreeListener {
 	 */
 	void exitLogicExpression(NewLogoParser.LogicExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link NewLogoParser#variable}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariable(NewLogoParser.VariableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link NewLogoParser#variable}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariable(NewLogoParser.VariableContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link NewLogoParser#varType}.
 	 * @param ctx the parse tree
 	 */

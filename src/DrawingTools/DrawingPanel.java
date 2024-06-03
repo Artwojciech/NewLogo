@@ -1,10 +1,7 @@
 package DrawingTools;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DrawingPanel extends JPanel {
@@ -16,15 +13,10 @@ public class DrawingPanel extends JPanel {
     private Color lineColor = Color.BLACK; // Domyślny kolor linii
     private int lineWidth = 1; // Domyślna szerokość linii
     private Color backgroundColor = Color.WHITE; // Domyślny kolor tła
-
-    // Lista najpopularniejszych kolorów
-    private static final List<Color> popularColors = Arrays.asList(
-            Color.BLACK, Color.WHITE, Color.RED, Color.GREEN, Color.BLUE,
-            Color.YELLOW, Color.MAGENTA, Color.PINK, Color.ORANGE, Color.GRAY
-    );
+    
 
     // Lista przechowująca linie do narysowania
-    private List<Line> lines = new ArrayList<>();
+    private final List<Line> lines = new ArrayList<>();
 
     // Klasa pomocnicza do przechowywania informacji o liniach
     private static class Line {
@@ -67,16 +59,13 @@ public class DrawingPanel extends JPanel {
         frame.add(commandField, BorderLayout.SOUTH);
 
         // Dodanie ActionListener do pola tekstowego
-        commandField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String input = commandField.getText();
-                String command = input.substring(0, input.indexOf("("));
-                String arguments = input.substring(input.indexOf("(")+1, input.length()-1);
-                if(arguments.startsWith("\"")) arguments = arguments.substring(1, arguments.length()-1);
-                commandField.setText("");
-                processCommand(panel, command, arguments);
-            }
+        commandField.addActionListener(_ -> {
+            String input = commandField.getText();
+            String command = input.substring(0, input.indexOf("("));
+            String arguments = input.substring(input.indexOf("(")+1, input.length()-1);
+            if(arguments.startsWith("\"")) arguments = arguments.substring(1, arguments.length()-1);
+            commandField.setText("");
+            processCommand(panel, command, arguments);
         });
 
         // Konfiguracja ramki
@@ -168,12 +157,7 @@ public class DrawingPanel extends JPanel {
     }
 
     public void linecol(Color color) {
-        // Sprawdzanie, czy kolor jest na liście popularnych kolorów
-        if (popularColors.contains(color)) {
-            this.lineColor = color;
-        } else {
-            System.out.println("Nieprawidłowy kolor. Użyj jednego z najpopularniejszych kolorów.");
-        }
+        this.lineColor = color;
     }
 
     public void linewidth(int width) {
@@ -185,13 +169,8 @@ public class DrawingPanel extends JPanel {
     }
 
     public void changebg(Color color) {
-        // Sprawdzanie, czy kolor jest na liście popularnych kolorów
-        if (popularColors.contains(color)) {
-            this.backgroundColor = color;
-            this.setBackground(color); // Zmiana koloru tła panelu
-        } else {
-            System.out.println("Nieprawidłowy kolor. Użyj jednego z najpopularniejszych kolorów.");
-        }
+        this.backgroundColor = color;
+        this.setBackground(color); // Zmiana koloru tła panelu
     }
 
     public void clear() {

@@ -4,6 +4,7 @@ import antlr.NewLogoParserBaseListener;
 
 import java.util.Hashtable;
 
+//No longer used, use visitor instead
 public class Listener extends NewLogoParserBaseListener {
     DrawingPanel panel;
     Hashtable<String, Value> variables = new Hashtable<>();
@@ -27,12 +28,12 @@ public class Listener extends NewLogoParserBaseListener {
             }
             String argument = "";
             if(ctx.callArguments().getChild(0) instanceof NewLogoParser.ValueContext val) {
-                if(val.VARIABLE() != null) {
-                    if(variables.containsKey(val.VARIABLE().getText())) {
-                        argument = variables.get(val.VARIABLE().getText()).getValue();
+                if(val.variable() != null) {
+                    if(variables.containsKey(val.variable().getText())) {
+                        argument = variables.get(val.variable().getText()).getValue();
                     }
                     else {
-                        System.err.println("Unknown value: " + val.VARIABLE().getText());
+                        System.err.println("Unknown value: " + val.variable().getText());
                         return;
                     }
                 }
@@ -51,7 +52,7 @@ public class Listener extends NewLogoParserBaseListener {
 
     @Override
     public void exitVarDeclaration(NewLogoParser.VarDeclarationContext ctx) {
-        String varName = ctx.VARIABLE().getText();
+        String varName = ctx.variable().getText();
         if(variables.containsKey(varName)) {
             System.err.println("Variable " + varName + " already declared!");
             return;
@@ -68,12 +69,12 @@ public class Listener extends NewLogoParserBaseListener {
         }
         
         String value;
-        if(ctx.value().VARIABLE() != null) {
-            if(variables.containsKey(ctx.value().VARIABLE().getText())) {
-                value = variables.get(ctx.value().VARIABLE().getText()).getValue();
+        if(ctx.value().variable() != null) {
+            if(variables.containsKey(ctx.value().variable().getText())) {
+                value = variables.get(ctx.value().variable().getText()).getValue();
             }
             else {
-                System.err.println("Unknown value: " + ctx.value().VARIABLE().getText());
+                System.err.println("Unknown value: " + ctx.value().variable().getText());
                 return;
             }
         }

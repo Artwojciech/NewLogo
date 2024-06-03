@@ -18,7 +18,7 @@ atom
 
 brExpression: LBRACKET mathExpression RBRACKET;
 
-mulExpression: (atom | brExpression | VARIABLE) (mulOp (atom | brExpression | VARIABLE))*;
+mulExpression: (atom | brExpression | variable) (mulOp (atom | brExpression | variable))*;
 
 mathExpression: mulExpression (sumOp mulExpression)*;
 
@@ -39,7 +39,7 @@ compOp
 compVal
 : NUMBER
 | boolConst
-| VARIABLE
+| variable
 | STRING_CONST
 | CHAR_CONST
 | mathExpression;
@@ -55,19 +55,21 @@ logicBrExpression: LBRACKET logicExpression RBRACKET;
 
 logicExpression: NOT? (compExpression | logicBrExpression | boolConst) (logicOp logicExpression)*;
 
-// Variables:
+// variables:
+variable : VARIABLE;
+
 varType
 : INT
 | BOOL
 | CHAR
 | STRING;
 
-varDeclaration: varType VARIABLE (ASSIGN value)?;
+varDeclaration: varType variable (ASSIGN value)?;
 
 value
 : STRING_CONST
 | CHAR_CONST
-| VARIABLE
+| variable
 | mathExpression
 | logicExpression;
 
@@ -77,22 +79,22 @@ selfOp
 | MUL_SELF
 | DIV_SELF;
 
-varAssign: VARIABLE ((ASSIGN value) | selfOp mathExpression);
+varAssign: variable ((ASSIGN value) | selfOp mathExpression);
 
 incOrDec
 : INCREMENT
 | DECREMENT;
 
-varIncrement: VARIABLE incOrDec;
+varIncrement: variable incOrDec;
 
 // Functions:
-argument: varType VARIABLE;
+argument: varType variable;
 
 arguments: argument (COMMA argument)*;
 
 funcDefinition: varType VARIABLE LBRACKET arguments RBRACKET LCURLY statement* RCURLY;
 
-drawingFunction: FORWARD | RTURN | LTURN | LINECOL | LINEWIDTH | CHANGEBG | CLEAR | ISBORDER;
+drawingFunction: FORWARD | RTURN | LTURN | LINECOL | LINEWIDTH | CHANGEBG | CLEAR | ISBORDER | PRINT;
 
 function: VARIABLE | drawingFunction;
 
@@ -112,6 +114,6 @@ loopStatement : WHILE LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY
 
 breakStatement : BREAK;
 
-returnStatement : RETURN (mathExpression | conditionalStatement | STRING | CHAR | VARIABLE);
+returnStatement : RETURN (mathExpression | conditionalStatement | STRING | CHAR | variable);
 
 printStatement : PRINT mathExpression | PRINT logicExpression | PRINT STRING | PRINT CHAR ;

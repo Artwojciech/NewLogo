@@ -185,6 +185,18 @@ public class NewLogoParserBaseListener implements NewLogoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterVariable(NewLogoParser.VariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVariable(NewLogoParser.VariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVarType(NewLogoParser.VarTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}

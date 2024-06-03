@@ -13,15 +13,23 @@ class Main {
     public static void main(String[] args) {
         try {
             InputStream inputStream = Main.class.getResourceAsStream("test.txt");
-
+            if(inputStream == null) {
+                System.err.println("File not found!");
+                return;
+            }
+            
             Lexer lexer = new NewLogoLexer(CharStreams.fromStream(inputStream));
             TokenStream tokenStream = new CommonTokenStream(lexer);
 
             NewLogoParser parser = new NewLogoParser(tokenStream);
-            Listener listener = new Listener();
+            /*Listener listener = new Listener();
             parser.addParseListener(listener);
             
             parser.program();
+            */
+            
+            Visitor visitor = new Visitor();
+            visitor.visitProgram(parser.program());
         }
         catch (IOException e) {
             e.printStackTrace();

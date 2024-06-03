@@ -7,7 +7,6 @@ RETURN          : 'return';
 BREAK           : 'break';
 IF              : 'if';
 ELSE            : 'else';
-PRINT          : 'print';
 
 // operators:
 PLUS:           '+';
@@ -43,6 +42,7 @@ LINEWIDTH   : 'linewidth';
 CHANGEBG   : 'changebg';
 CLEAR       : 'clear';
 ISBORDER    : 'isborder';
+PRINT          : 'print';
 
 // constants:
 NUMBER: [0-9]+;

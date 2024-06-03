@@ -6,8 +6,10 @@ rturn(10);
 forward(10);
 lturn(90);
 forward(20);
+//komentarz
 
 string color = "green";
 int dist = 5;
 linecol(color);
 forward(dist);
+print(2+2*(2+2));
