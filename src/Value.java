@@ -13,6 +13,22 @@ public class Value {
         this.type = type;
         this.value = value;
     }
+    public Value(int value) {
+        this.type = ValueType.INT;
+        this.value = Integer.toString(value);
+    }
+    public Value(String value) {
+        this.type = ValueType.STRING;
+        this.value = value;
+    }
+    public Value(char value) {
+        this.type = ValueType.CHAR;
+        this.value = Character.toString(value);
+    }
+    public Value(boolean value) {
+        this.type = ValueType.BOOL;
+        this.value = Boolean.toString(value);
+    }
     
     public ValueType getType() {
         return type;
