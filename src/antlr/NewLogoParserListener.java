@@ -128,16 +128,6 @@ public interface NewLogoParserListener extends ParseTreeListener {
 	 */
 	void exitCompExpression(NewLogoParser.CompExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link NewLogoParser#logicOp}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogicOp(NewLogoParser.LogicOpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link NewLogoParser#logicOp}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogicOp(NewLogoParser.LogicOpContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link NewLogoParser#logicBrExpression}.
 	 * @param ctx the parse tree
 	 */
@@ -147,6 +137,16 @@ public interface NewLogoParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLogicBrExpression(NewLogoParser.LogicBrExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link NewLogoParser#logicAndExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicAndExpression(NewLogoParser.LogicAndExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link NewLogoParser#logicAndExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicAndExpression(NewLogoParser.LogicAndExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link NewLogoParser#logicExpression}.
 	 * @param ctx the parse tree

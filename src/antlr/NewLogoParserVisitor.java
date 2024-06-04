@@ -83,17 +83,17 @@ public interface NewLogoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCompExpression(NewLogoParser.CompExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link NewLogoParser#logicOp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLogicOp(NewLogoParser.LogicOpContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link NewLogoParser#logicBrExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLogicBrExpression(NewLogoParser.LogicBrExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link NewLogoParser#logicAndExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicAndExpression(NewLogoParser.LogicAndExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link NewLogoParser#logicExpression}.
 	 * @param ctx the parse tree

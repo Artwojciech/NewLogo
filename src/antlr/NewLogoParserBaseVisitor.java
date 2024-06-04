@@ -102,14 +102,14 @@ public class NewLogoParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicOp(NewLogoParser.LogicOpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLogicBrExpression(NewLogoParser.LogicBrExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicBrExpression(NewLogoParser.LogicBrExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLogicAndExpression(NewLogoParser.LogicAndExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

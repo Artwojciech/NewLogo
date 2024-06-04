@@ -161,18 +161,6 @@ public class NewLogoParserBaseListener implements NewLogoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogicOp(NewLogoParser.LogicOpContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLogicOp(NewLogoParser.LogicOpContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterLogicBrExpression(NewLogoParser.LogicBrExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -180,6 +168,18 @@ public class NewLogoParserBaseListener implements NewLogoParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLogicBrExpression(NewLogoParser.LogicBrExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLogicAndExpression(NewLogoParser.LogicAndExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicAndExpression(NewLogoParser.LogicAndExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

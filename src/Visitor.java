@@ -249,4 +249,100 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         else return new Value(1);
         return new Value(0);
     }
+
+    @Override
+    public Value visitLogicBrExpression(NewLogoParser.LogicBrExpressionContext ctx) {
+        return ctx.logicExpression().accept(this);
+    }
+
+    @Override
+    public Value visitLogicAndExpression(NewLogoParser.LogicAndExpressionContext ctx) {
+        Value result = ctx.getChild(0).accept(this);
+        for (int i = 2; i < ctx.getChildCount(); i += 2) {
+            Value next = ctx.getChild(i).accept(this);
+            result = Value.multiply(result, next);
+        }
+        return result;
+    }
+
+    @Override
+    public Value visitLogicExpression(NewLogoParser.LogicExpressionContext ctx) {
+        Value result = ctx.getChild(0).accept(this);
+        for (int i = 2; i < ctx.getChildCount(); i += 2) {
+            Value next = ctx.getChild(i).accept(this);
+            result = Value.add(result, next);
+        }
+        return result;
+    }
+
+    @Override
+    public Value visitBoolConst(NewLogoParser.BoolConstContext ctx) {
+        if (ctx.TRUE() != null) {
+            return new Value(true);
+        }
+        else {
+            return new Value(false);
+        }
+    }
+
+    @Override
+    public Value visitCompOp(NewLogoParser.CompOpContext ctx) {
+        if (ctx.EQUAL() != null) {
+            return new Value(0);
+        }
+        else if (ctx.NOT_EQUAL() != null) {
+            return new Value(1);
+        }
+        else if (ctx.GREATER() != null) {
+            return new Value(2);
+        }
+        else if (ctx.LESSER() != null) {
+            return new Value(-2);
+        }
+        else if (ctx.GREATER_EQUAL() != null) {
+            return new Value(3);
+        }
+        else {
+            return new Value(-3);
+        }
+    }
+
+    @Override
+    public Value visitCompExpression(NewLogoParser.CompExpressionContext ctx) {
+        Value value1 = ctx.getChild(0).accept(this);
+        Value value2 = ctx.getChild(2).accept(this);
+        
+        if (value1.getType() != value2.getType()) {
+            System.err.println("Cannot compare values of different types!");
+            return new Value(0);
+        }
+        
+        switch (ctx.getChild(1).accept(this).getInt()) {
+            case 0:
+                return new Value(value1.getValue().equals(value2.getValue()));
+            case 1:
+                return new Value(!value1.getValue().equals(value2.getValue()));
+            case 2:
+                return new Value(value1.getInt() > value2.getInt());
+            case -2:
+                return new Value(value1.getInt() < value2.getInt());
+            case 3:
+                return new Value(value1.getInt() >= value2.getInt());
+            case -3:
+                return new Value(value1.getInt() <= value2.getInt());
+            default:
+                return new Value(0);
+        }
+    }
+
+    @Override
+    public Value visitCompVal(NewLogoParser.CompValContext ctx) {
+        if (ctx.CHAR_CONST() != null) {
+            String argument = ctx.getText();
+            return new Value(argument.charAt(1));
+        }
+        else {
+            return visitChildren(ctx);
+        }
+    }
 }

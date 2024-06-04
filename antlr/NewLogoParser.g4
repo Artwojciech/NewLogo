@@ -39,24 +39,22 @@ compOp
 | EQUAL
 | NOT_EQUAL;
 
-compVal
-: NUMBER
+compVal:
 | boolConst
 | variable
-| STRING_CONST
+| string
 | CHAR_CONST
 | mathExpression;
 
 compExpression
 : compVal compOp compVal;
 
-logicOp
-: AND
-| OR;
-
 logicBrExpression: LBRACKET logicExpression RBRACKET;
 
-logicExpression: NOT? (compExpression | logicBrExpression | boolConst) (logicOp logicExpression)*;
+logicAndExpression: NOT? (compExpression | logicBrExpression | boolConst) (AND logicAndExpression | variable)*
+| NOT? variable (AND logicAndExpression | variable)+;
+
+logicExpression: NOT? logicAndExpression (OR logicAndExpression)*;
 
 // variables:
 variable : VARIABLE;
