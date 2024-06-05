@@ -68,6 +68,9 @@ linecol("white");
 linewidth(1);
 int i = 0;
 while(i < 10){
+    if (i == 9) {
+        break;
+    }
     forward(5);
     rturn(36);
     i += 1;

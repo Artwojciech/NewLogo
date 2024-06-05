@@ -389,10 +389,15 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
     public Value visitRepeatLoop(NewLogoParser.RepeatLoopContext ctx) {
         Value n = ctx.value().accept(this);
 
-        for (int i = 0; i < n.getInt(); i++) {
-            ctx.statementBlock().accept(this);
+        try {
+            for (int i = 0; i < n.getInt(); i++) {
+                ctx.statementBlock().accept(this);
+            }
         }
-        
+        catch (BreakException e) {
+            return defaultResult();
+        }
+
         return defaultResult();
     }
 
@@ -404,9 +409,14 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
             return new Value(0);
         }
         
-        while (condition.getBool()) {
-            ctx.statementBlock().accept(this);
-            condition = ctx.value().accept(this);
+        try {
+            while (condition.getBool()) {
+                ctx.statementBlock().accept(this);
+                condition = ctx.value().accept(this);
+            }
+        }
+        catch (BreakException e) {
+            return defaultResult();
         }
         
         return defaultResult();
@@ -511,5 +521,10 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
     public Value visitReturnStatement(NewLogoParser.ReturnStatementContext ctx) {
         Value value = ctx.value().accept(this);
         throw new ReturnException(value);
+    }
+
+    @Override
+    public Value visitBreakStatement(NewLogoParser.BreakStatementContext ctx) {
+        throw new BreakException();
     }
 }
