@@ -45,7 +45,8 @@ if(5 < 3){
 
 
 repeat (10) {
-    forward(2);
+    dist = 2;
+    forward(dist);
     rturn(36);
 }
 

@@ -409,5 +409,12 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         
         return defaultResult();
     }
-    
+
+    @Override
+    public Value visitStatementBlock(NewLogoParser.StatementBlockContext ctx) {
+        variables.push(new Hashtable<>());
+        Value value = visitChildren(ctx);
+        variables.pop();
+        return value;
+    }
 }
