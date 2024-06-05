@@ -1,6 +1,7 @@
 import DrawingTools.DrawingPanel;
 import antlr.NewLogoParser;
 import antlr.NewLogoParserBaseVisitor;
+import org.antlr.v4.runtime.misc.Pair;
 
 import java.awt.*;
 import java.util.*;
@@ -9,8 +10,8 @@ import java.util.List;
 public class Visitor extends NewLogoParserBaseVisitor<Value> {
     DrawingPanel panel;
     Stack<Hashtable<String, Value>> variables = new Stack<>();
-    Hashtable<String, NewLogoParser.StatementBlockContext> functions = new Hashtable<>();
-    
+    Hashtable<String, Func> functions = new Hashtable<>();
+
     @Override
     public Value visitProgram(NewLogoParser.ProgramContext ctx) {
         panel = DrawingPanel.createPanel(800, 600);
@@ -228,8 +229,9 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         if (ctx.function().drawingFunction() != null) {
             return drawingFunction(ctx.function().drawingFunction(), arguments.getFirst());
         }
-        
-        return defaultResult();
+        else {
+            return callFunction(ctx.function().VARIABLE().getText(), arguments);
+        }
     }
     
     public Value drawingFunction(NewLogoParser.DrawingFunctionContext ctx, Value argument) {
@@ -416,5 +418,98 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         Value value = visitChildren(ctx);
         variables.pop();
         return value;
+    }
+
+    @Override
+    public Value visitFuncDefinition(NewLogoParser.FuncDefinitionContext ctx) {
+        String funcName = ctx.VARIABLE().getText();
+        if (functions.containsKey(funcName)) {
+            System.err.println("Function " + funcName + " already declared!");
+            return new Value(1);
+        }
+        
+        Value.ValueType returnType;
+        if (ctx.varType() == null) returnType = null;
+        else if (ctx.varType().BOOL() != null) returnType = Value.ValueType.BOOL;
+        else if (ctx.varType().INT() != null) returnType = Value.ValueType.INT;
+        else if (ctx.varType().STRING() != null) returnType = Value.ValueType.STRING;
+        else if (ctx.varType().CHAR() != null) returnType = Value.ValueType.CHAR;
+        else {
+            System.err.println("Unknown type!");
+            return new Value(1);
+        }
+        
+        ArrayList<Pair<Value.ValueType, String>> parameters = new ArrayList<>();
+        for (NewLogoParser.ArgumentContext arg : ctx.arguments().argument()) {
+            NewLogoParser.VarTypeContext varType = arg.varType();
+            if (varType.BOOL() != null) parameters.add(new Pair<>(Value.ValueType.BOOL, arg.variable().getText()));
+            else if (varType.INT() != null) parameters.add(new Pair<>(Value.ValueType.INT, arg.variable().getText()));
+            else if (varType.STRING() != null) parameters.add(new Pair<>(Value.ValueType.STRING, arg.variable().getText()));
+            else if (varType.CHAR() != null) parameters.add(new Pair<>(Value.ValueType.CHAR, arg.variable().getText()));
+            else {
+                System.err.println("Unknown type!");
+                return new Value(1);
+            }
+        }
+        
+        functions.put(funcName, new Func(ctx.statementBlock(), returnType, parameters));
+        
+        return new Value(0);
+    }
+    
+    public Value callFunction(String funcName, List<Value> arguments) {
+        Func func = functions.get(funcName);
+        if (func == null) {
+            System.err.println("Function " + funcName + " not declared!");
+            return new Value(0);
+        }
+        
+        if (func.getParameters().size() != arguments.size()) {
+            System.err.println("Invalid number of arguments for function " + funcName);
+            return new Value(0);
+        }
+        
+        variables.push(new Hashtable<>());
+        for (int i = 0; i < arguments.size(); i++) {
+            if (func.getParameters().get(i).a != arguments.get(i).getType()) {
+                System.err.println("Invalid type for argument " + func.getParameters().get(i).b);
+                return new Value(0);
+            }
+            variables.peek().put(func.getParameters().get(i).b, arguments.get(i));
+        }
+        
+        Value result = null;
+        
+        try {
+            func.getBlock().accept(this);
+        }
+        catch (ReturnException e) {
+            result = e.getReturnValue();
+        }
+        
+        variables.pop();
+        
+        if (func.getReturnType() == null) {
+            if (result != null) {
+                System.err.println("Void function " + funcName + " cannot return a value!");
+            }
+            return new Value(0);
+        }
+        
+        if (result == null) {
+            System.err.println("No return statement in function " + funcName);
+        }
+        else if (result.getType() != func.getReturnType()) {
+            System.err.println("Invalid return type for function " + funcName);
+            return null;
+        }
+        
+        return result;
+    }
+
+    @Override
+    public Value visitReturnStatement(NewLogoParser.ReturnStatementContext ctx) {
+        Value value = ctx.value().accept(this);
+        throw new ReturnException(value);
     }
 }

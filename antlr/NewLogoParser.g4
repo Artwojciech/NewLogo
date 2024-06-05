@@ -94,7 +94,7 @@ argument: varType variable;
 
 arguments: argument (COMMA argument)*;
 
-funcDefinition: varType VARIABLE LBRACKET arguments RBRACKET LCURLY statementBlock RCURLY;
+funcDefinition: (varType | VOID) VARIABLE LBRACKET arguments RBRACKET LCURLY statementBlock RCURLY;
 
 drawingFunction: FORWARD | RTURN | LTURN | LINECOL | LINEWIDTH | CHANGEBG | CLEAR | ISBORDER | PRINT;
 
@@ -121,4 +121,4 @@ loopStatement : whileLoop | repeatLoop;
 
 breakStatement : BREAK;
 
-returnStatement : RETURN (mathExpression | conditionalStatement | string | CHAR | variable);
+returnStatement : RETURN value;

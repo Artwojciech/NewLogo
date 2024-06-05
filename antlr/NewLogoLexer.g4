@@ -60,6 +60,7 @@ INT: 'int';
 CHAR: 'char';
 STRING: 'string';
 BOOL: 'bool';
+VOID: 'void';
 
 // brackets:
 LBRACKET        : '(';
