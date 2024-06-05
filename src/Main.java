@@ -22,11 +22,6 @@ class Main {
             TokenStream tokenStream = new CommonTokenStream(lexer);
 
             NewLogoParser parser = new NewLogoParser(tokenStream);
-            /*Listener listener = new Listener();
-            parser.addParseListener(listener);
-            
-            parser.program();
-            */
             
             Visitor visitor = new Visitor();
             visitor.visitProgram(parser.program());
