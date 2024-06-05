@@ -328,6 +328,16 @@ public interface NewLogoParserListener extends ParseTreeListener {
 	 */
 	void exitStatement(NewLogoParser.StatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link NewLogoParser#statementBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatementBlock(NewLogoParser.StatementBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link NewLogoParser#statementBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatementBlock(NewLogoParser.StatementBlockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link NewLogoParser#conditionalStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -367,14 +377,4 @@ public interface NewLogoParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitReturnStatement(NewLogoParser.ReturnStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link NewLogoParser#printStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrintStatement(NewLogoParser.PrintStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link NewLogoParser#printStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrintStatement(NewLogoParser.PrintStatementContext ctx);
 }

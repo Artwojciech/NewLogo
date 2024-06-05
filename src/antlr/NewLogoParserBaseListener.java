@@ -401,6 +401,18 @@ public class NewLogoParserBaseListener implements NewLogoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStatementBlock(NewLogoParser.StatementBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatementBlock(NewLogoParser.StatementBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterConditionalStatement(NewLogoParser.ConditionalStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -444,18 +456,6 @@ public class NewLogoParserBaseListener implements NewLogoParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitReturnStatement(NewLogoParser.ReturnStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrintStatement(NewLogoParser.PrintStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrintStatement(NewLogoParser.PrintStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

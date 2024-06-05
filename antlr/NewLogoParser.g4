@@ -18,8 +18,7 @@ atom
 
 brExpression: LBRACKET mathExpression RBRACKET;
 
-mulExpression: (atom | brExpression) (mulOp (atom | brExpression | variable))*
-| variable (mulOp (atom | brExpression | variable))+;
+mulExpression: (atom | brExpression | variable) (mulOp (atom | brExpression | variable))*;
 
 mathExpression: mulExpression (sumOp mulExpression)*;
 
@@ -44,15 +43,15 @@ compVal:
 | variable
 | string
 | CHAR_CONST
-| mathExpression;
+| mathExpression
+| functionCall;
 
 compExpression
 : compVal compOp compVal;
 
 logicBrExpression: LBRACKET logicExpression RBRACKET;
 
-logicAndExpression: NOT? (compExpression | logicBrExpression | boolConst) (AND logicAndExpression | variable)*
-| NOT? variable (AND logicAndExpression | variable)+;
+logicAndExpression: NOT? (compExpression | logicBrExpression | boolConst | variable) (AND logicAndExpression)*;
 
 logicExpression: NOT? logicAndExpression (OR logicAndExpression)*;
 
@@ -70,9 +69,9 @@ varDeclaration: varType variable (ASSIGN value)?;
 value
 : string
 | CHAR_CONST
-| variable
 | mathExpression
-| logicExpression;
+| logicExpression
+| functionCall;
 
 selfOp
 : INC_SELF
@@ -110,13 +109,13 @@ statement
 : (mathExpression | conditionalStatement | loopStatement | breakStatement | returnStatement | functionCall | varDeclaration | varAssign | varIncrement | varSelfOp) SEMICOLON
 | (conditionalStatement | loopStatement);
 
-conditionalStatement : IF LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY (ELSE LCURLY statement* RCURLY)?;
+statementBlock: statement*;
 
-loopStatement : WHILE LBRACKET logicExpression RBRACKET LCURLY statement* RCURLY
-         | REPEAT LBRACKET mathExpression RBRACKET LCURLY statement* RCURLY;
+conditionalStatement : IF LBRACKET value RBRACKET LCURLY statementBlock RCURLY (ELSE LCURLY statementBlock RCURLY)?;
+
+loopStatement : WHILE LBRACKET logicExpression RBRACKET LCURLY statementBlock RCURLY
+         | REPEAT LBRACKET mathExpression RBRACKET LCURLY statementBlock RCURLY;
 
 breakStatement : BREAK;
 
-returnStatement : RETURN (mathExpression | conditionalStatement | STRING | CHAR | variable);
-
-printStatement : PRINT mathExpression | PRINT logicExpression | PRINT STRING | PRINT CHAR ;
+returnStatement : RETURN (mathExpression | conditionalStatement | string | CHAR | variable);

@@ -203,6 +203,12 @@ public interface NewLogoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(NewLogoParser.StatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link NewLogoParser#statementBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatementBlock(NewLogoParser.StatementBlockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link NewLogoParser#conditionalStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -226,10 +232,4 @@ public interface NewLogoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitReturnStatement(NewLogoParser.ReturnStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link NewLogoParser#printStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPrintStatement(NewLogoParser.PrintStatementContext ctx);
 }

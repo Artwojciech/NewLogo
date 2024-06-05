@@ -1,5 +1,16 @@
 lexer grammar NewLogoLexer;
 
+// constants:
+CHAR_CONST: '\''.'\'';
+STRING_CONST: '"'(.)*?'"';
+NUMBER: [0-9]+;
+TRUE
+: 'True'
+| 'true';
+FALSE
+: 'False'
+| 'false';
+
 // loops:
 REPEAT            : 'repeat';
 WHILE           : 'while';
@@ -43,17 +54,6 @@ CHANGEBG   : 'changebg';
 CLEAR       : 'clear';
 ISBORDER    : 'isborder';
 PRINT          : 'print';
-
-// constants:
-NUMBER: [0-9]+;
-CHAR_CONST: '\''[a-zA-Z0-9_!?.]'\'';
-STRING_CONST: '"'[a-zA-Z0-9_!?.]*'"';
-TRUE
-: 'True'
-| 'true';
-FALSE
-: 'False'
-| 'false';
 
 // variable types:
 INT: 'int';

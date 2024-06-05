@@ -1,10 +1,11 @@
-import DrawingTools.DrawingPanel;
+//No longer used, use visitor instead
+
+/*import DrawingTools.DrawingPanel;
 import antlr.NewLogoParser;
 import antlr.NewLogoParserBaseListener;
 
 import java.util.Hashtable;
 
-//No longer used, use visitor instead
 public class Listener extends NewLogoParserBaseListener {
     DrawingPanel panel;
     Hashtable<String, Value> variables = new Hashtable<>();
@@ -88,4 +89,4 @@ public class Listener extends NewLogoParserBaseListener {
         
         variables.put(varName, new Value(type, value));
     }
-}
+}*/

@@ -11,11 +11,16 @@ import java.util.Objects;
 public class Visitor extends NewLogoParserBaseVisitor<Value> {
     DrawingPanel panel;
     Hashtable<String, Value> variables = new Hashtable<>();
-
+    
     @Override
     public Value visitProgram(NewLogoParser.ProgramContext ctx) {
         panel = DrawingPanel.createPanel(800, 600);
         visitChildren(ctx);
+        return defaultResult();
+    }
+
+    @Override
+    protected Value defaultResult() {
         return new Value(0);
     }
 
@@ -105,7 +110,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         else if (ctx.DIV_SELF() != null) {
             return new Value(-2);
         }
-        else return new Value(0);
+        else return defaultResult();
     }
 
     @Override
@@ -116,22 +121,15 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         }
         
         Value value = ctx.value().accept(this);
-        Value newValue = new Value(0);
-        switch (ctx.selfOp().accept(this).getInt()) {
-            case 1:
-                newValue = Value.add(variables.get(ctx.variable().getText()), value);
-                break;
-            case -1:
-                newValue = Value.add(variables.get(ctx.variable().getText()), Value.multiply(value, new Value(-1)));
-                break;
-            case 2:
-                newValue = Value.multiply(variables.get(ctx.variable().getText()), value);
-                break;
-            case -2:
-                newValue = Value.divide(variables.get(ctx.variable().getText()), value);
-                break;
-        }
-        
+        new Value(0);
+        Value newValue = switch (ctx.selfOp().accept(this).getInt()) {
+            case 1 -> Value.add(variables.get(ctx.variable().getText()), value);
+            case -1 -> Value.add(variables.get(ctx.variable().getText()), Value.multiply(value, new Value(-1)));
+            case 2 -> Value.multiply(variables.get(ctx.variable().getText()), value);
+            case -2 -> Value.divide(variables.get(ctx.variable().getText()), value);
+            default -> defaultResult();
+        };
+
         variables.get(ctx.variable().getText()).setValue(newValue.getValue());
         
         return variables.get(ctx.variable().getText());
@@ -203,7 +201,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
             return drawingFunction(ctx.function().drawingFunction(), arguments.getFirst());
         }
         
-        return new Value(0);
+        return defaultResult();
     }
     
     public Value drawingFunction(NewLogoParser.DrawingFunctionContext ctx, Value argument) {
@@ -247,7 +245,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
             System.out.println(argument.getValue());
         }
         else return new Value(1);
-        return new Value(0);
+        return defaultResult();
     }
 
     @Override
@@ -316,23 +314,16 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
             System.err.println("Cannot compare values of different types!");
             return new Value(0);
         }
-        
-        switch (ctx.getChild(1).accept(this).getInt()) {
-            case 0:
-                return new Value(value1.getValue().equals(value2.getValue()));
-            case 1:
-                return new Value(!value1.getValue().equals(value2.getValue()));
-            case 2:
-                return new Value(value1.getInt() > value2.getInt());
-            case -2:
-                return new Value(value1.getInt() < value2.getInt());
-            case 3:
-                return new Value(value1.getInt() >= value2.getInt());
-            case -3:
-                return new Value(value1.getInt() <= value2.getInt());
-            default:
-                return new Value(0);
-        }
+
+        return switch (ctx.getChild(1).accept(this).getInt()) {
+            case 0 -> new Value(value1.getValue().equals(value2.getValue()));
+            case 1 -> new Value(!value1.getValue().equals(value2.getValue()));
+            case 2 -> new Value(value1.getInt() > value2.getInt());
+            case -2 -> new Value(value1.getInt() < value2.getInt());
+            case 3 -> new Value(value1.getInt() >= value2.getInt());
+            case -3 -> new Value(value1.getInt() <= value2.getInt());
+            default -> defaultResult();
+        };
     }
 
     @Override
@@ -344,5 +335,23 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         else {
             return visitChildren(ctx);
         }
+    }
+
+    @Override
+    public Value visitConditionalStatement(NewLogoParser.ConditionalStatementContext ctx) {
+        Value condition = ctx.value().accept(this);
+        if (condition.getType() != Value.ValueType.BOOL) {
+            System.err.println("Invalid condition!");
+            return new Value(0);
+        }
+        
+        if(condition.getBool()) {
+            ctx.statementBlock(0).accept(this);
+        }
+        else if(ctx.statementBlock().size() > 1) {
+            ctx.statementBlock(1).accept(this);
+        }
+        
+        return defaultResult();
     }
 }
