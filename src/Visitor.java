@@ -354,4 +354,31 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         
         return defaultResult();
     }
+
+    @Override
+    public Value visitRepeatLoop(NewLogoParser.RepeatLoopContext ctx) {
+        Value n = ctx.value().accept(this);
+
+        for (int i = 0; i < n.getInt(); i++) {
+            ctx.statementBlock().accept(this);
+        }
+        
+        return defaultResult();
+    }
+
+    @Override
+    public Value visitWhileLoop(NewLogoParser.WhileLoopContext ctx) {
+        Value condition = ctx.value().accept(this);
+        if (condition.getType() != Value.ValueType.BOOL) {
+            System.err.println("Invalid condition!");
+            return new Value(0);
+        }
+        
+        while (condition.getBool()) {
+            ctx.statementBlock().accept(this);
+            condition = ctx.value().accept(this);
+        }
+        
+        return defaultResult();
+    }
 }

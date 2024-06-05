@@ -43,3 +43,20 @@ if(5 < 3){
     print("5 >= 3");
 }
 
+
+repeat (10) {
+    forward(2);
+    rturn(36);
+}
+
+lturn(45);
+forward(20);
+
+linecol("white");
+linewidth(1);
+int i = 0;
+while(i < 10){
+    forward(5);
+    rturn(36);
+    i += 1;
+}

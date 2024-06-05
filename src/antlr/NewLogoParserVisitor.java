@@ -215,6 +215,18 @@ public interface NewLogoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitConditionalStatement(NewLogoParser.ConditionalStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link NewLogoParser#whileLoop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileLoop(NewLogoParser.WhileLoopContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link NewLogoParser#repeatLoop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRepeatLoop(NewLogoParser.RepeatLoopContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link NewLogoParser#loopStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

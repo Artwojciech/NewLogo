@@ -348,6 +348,26 @@ public interface NewLogoParserListener extends ParseTreeListener {
 	 */
 	void exitConditionalStatement(NewLogoParser.ConditionalStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link NewLogoParser#whileLoop}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileLoop(NewLogoParser.WhileLoopContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link NewLogoParser#whileLoop}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileLoop(NewLogoParser.WhileLoopContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link NewLogoParser#repeatLoop}.
+	 * @param ctx the parse tree
+	 */
+	void enterRepeatLoop(NewLogoParser.RepeatLoopContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link NewLogoParser#repeatLoop}.
+	 * @param ctx the parse tree
+	 */
+	void exitRepeatLoop(NewLogoParser.RepeatLoopContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link NewLogoParser#loopStatement}.
 	 * @param ctx the parse tree
 	 */

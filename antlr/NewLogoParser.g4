@@ -113,8 +113,11 @@ statementBlock: statement*;
 
 conditionalStatement : IF LBRACKET value RBRACKET LCURLY statementBlock RCURLY (ELSE LCURLY statementBlock RCURLY)?;
 
-loopStatement : WHILE LBRACKET logicExpression RBRACKET LCURLY statementBlock RCURLY
-         | REPEAT LBRACKET mathExpression RBRACKET LCURLY statementBlock RCURLY;
+whileLoop : WHILE LBRACKET value RBRACKET LCURLY statementBlock RCURLY;
+
+repeatLoop : REPEAT LBRACKET value RBRACKET LCURLY statementBlock RCURLY;
+
+loopStatement : whileLoop | repeatLoop;
 
 breakStatement : BREAK;
 
