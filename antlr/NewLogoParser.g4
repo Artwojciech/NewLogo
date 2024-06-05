@@ -94,7 +94,7 @@ argument: varType variable;
 
 arguments: argument (COMMA argument)*;
 
-funcDefinition: varType VARIABLE LBRACKET arguments RBRACKET LCURLY statement* RCURLY;
+funcDefinition: varType VARIABLE LBRACKET arguments RBRACKET LCURLY statementBlock RCURLY;
 
 drawingFunction: FORWARD | RTURN | LTURN | LINECOL | LINEWIDTH | CHANGEBG | CLEAR | ISBORDER | PRINT;
 

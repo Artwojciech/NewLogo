@@ -3,18 +3,18 @@ import antlr.NewLogoParser;
 import antlr.NewLogoParserBaseVisitor;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 
 public class Visitor extends NewLogoParserBaseVisitor<Value> {
     DrawingPanel panel;
-    Hashtable<String, Value> variables = new Hashtable<>();
+    Stack<Hashtable<String, Value>> variables = new Stack<>();
+    Hashtable<String, NewLogoParser.StatementBlockContext> functions = new Hashtable<>();
     
     @Override
     public Value visitProgram(NewLogoParser.ProgramContext ctx) {
         panel = DrawingPanel.createPanel(800, 600);
+        variables.push(new Hashtable<>());
         visitChildren(ctx);
         return defaultResult();
     }
@@ -22,6 +22,36 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
     @Override
     protected Value defaultResult() {
         return new Value(0);
+    }
+    
+    protected Value getVariable(String name) {
+        for (int i = variables.size() - 1; i >= 0; i--) {
+            if (variables.get(i).containsKey(name)) {
+                return variables.get(i).get(name);
+            }
+        }
+        System.err.println("Variable " + name + " not declared!");
+        return null;
+    }
+    
+    protected boolean setVariable(String name, Value value) {
+        for (int i = variables.size() - 1; i >= 0; i--) {
+            if (variables.get(i).containsKey(name)) {
+                variables.get(i).put(name, value);
+                return true;
+            }
+        }
+        System.err.println("Variable " + name + " not declared!");
+        return false;
+    }
+    
+    protected boolean variableExists(String name) {
+        for (int i = variables.size() - 1; i >= 0; i--) {
+            if (variables.get(i).containsKey(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -53,7 +83,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
 
     @Override
     public Value visitVariable(NewLogoParser.VariableContext ctx) {
-        return variables.get(ctx.getText());
+        return getVariable(ctx.getText());
     }
 
     @Override
@@ -65,11 +95,11 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
             System.err.println("Invalid type for variable " + varName);
             return new Value(0);
         }
-        if(variables.containsKey(varName)) {
-            System.err.println("Variable " + varName + " already declared!");
+        if(variables.peek().containsKey(varName)) {
+            System.err.println("Variable " + varName + " already declared in scope!");
             return new Value(0);
         }
-        variables.put(varName, value);
+        variables.peek().put(varName, value);
         return value;
     }
 
@@ -77,22 +107,21 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
     public Value visitVarAssign(NewLogoParser.VarAssignContext ctx) {
         String varName = ctx.variable().getText();
         Value value = ctx.value().accept(this);
-        if(!variables.containsKey(varName)) {
+        if(!setVariable(varName, value)) {
             System.err.println("Variable " + varName + " not declared!");
             return new Value(0);
         }
         
-        variables.get(varName).setValue(value.getValue());
         return value;
     }
 
     @Override
     public Value visitVarIncrement(NewLogoParser.VarIncrementContext ctx) {
         if(ctx.incOrDec().INCREMENT() != null) {
-            return Value.add(variables.get(ctx.variable().getText()), new Value(1));
+            return Value.add(getVariable(ctx.variable().getText()), new Value(1));
         }
         else {
-            return Value.add(variables.get(ctx.variable().getText()), new Value(-1));
+            return Value.add(getVariable(ctx.variable().getText()), new Value(-1));
         }
     }
 
@@ -115,24 +144,23 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
 
     @Override
     public Value visitVarSelfOp(NewLogoParser.VarSelfOpContext ctx) {
-        if (!variables.containsKey(ctx.variable().getText())) {
+        if (!variableExists(ctx.variable().getText())) {
             System.err.println("Variable " + ctx.variable().getText() + " not declared!");
             return new Value(0);
         }
         
         Value value = ctx.value().accept(this);
-        new Value(0);
         Value newValue = switch (ctx.selfOp().accept(this).getInt()) {
-            case 1 -> Value.add(variables.get(ctx.variable().getText()), value);
-            case -1 -> Value.add(variables.get(ctx.variable().getText()), Value.multiply(value, new Value(-1)));
-            case 2 -> Value.multiply(variables.get(ctx.variable().getText()), value);
-            case -2 -> Value.divide(variables.get(ctx.variable().getText()), value);
+            case 1 -> Value.add(getVariable(ctx.variable().getText()), value);
+            case -1 -> Value.add(getVariable(ctx.variable().getText()), Value.multiply(value, new Value(-1)));
+            case 2 -> Value.multiply(getVariable(ctx.variable().getText()), value);
+            case -2 -> Value.divide(getVariable(ctx.variable().getText()), value);
             default -> defaultResult();
         };
 
-        variables.get(ctx.variable().getText()).setValue(newValue.getValue());
+        setVariable(ctx.variable().getText(), newValue);
         
-        return variables.get(ctx.variable().getText());
+        return newValue;
     }
 
     @Override
@@ -381,4 +409,5 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         
         return defaultResult();
     }
+    
 }
