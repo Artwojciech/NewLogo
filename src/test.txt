@@ -1,5 +1,6 @@
 int add (int a, int b){
     return a + b;
+    print("dont print me");
 }
 
 void drawSquare(int size){
@@ -8,7 +9,6 @@ void drawSquare(int size){
         rturn(90);
     }
 }
-
 linewidth(2);
 changebg("black");
 linecol("red");

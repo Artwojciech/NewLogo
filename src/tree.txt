@@ -1,0 +1,21 @@
+void drawTree(int length, int level) {
+    if (level <= 0) {
+        return;
+    }
+
+    forward(length);
+    lturn(30);
+    drawTree(length - 1, level - 1);
+    rturn(60);
+    drawTree(length - 1, level - 1);
+    lturn(30);
+    forward(-1 * length);
+}
+
+linecol("blue");
+forward(-10);
+
+changebg("blue");
+
+linecol("pink");
+drawTree(8, 8);

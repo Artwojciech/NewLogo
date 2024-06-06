@@ -121,4 +121,4 @@ loopStatement : whileLoop | repeatLoop;
 
 breakStatement : BREAK;
 
-returnStatement : RETURN value;
+returnStatement : RETURN value?;

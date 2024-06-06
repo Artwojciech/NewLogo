@@ -93,11 +93,11 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         Value value = ctx.value().accept(this);
         Value.ValueType type = value.getType();
         if (type != value.getType()) {
-            System.err.println("Invalid type for variable " + varName);
+            System.err.println(ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + " - Invalid type for variable " + varName);
             return new Value(0);
         }
         if(variables.peek().containsKey(varName)) {
-            System.err.println("Variable " + varName + " already declared in scope!");
+            System.err.println(ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + " - Variable " + varName + " already declared in scope!");
             return new Value(0);
         }
         variables.peek().put(varName, value);
@@ -109,7 +109,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         String varName = ctx.variable().getText();
         Value value = ctx.value().accept(this);
         if(!setVariable(varName, value)) {
-            System.err.println("Variable " + varName + " not declared!");
+            System.err.println(ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + " - Variable " + varName + " not declared!");
             return new Value(0);
         }
         
@@ -146,7 +146,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
     @Override
     public Value visitVarSelfOp(NewLogoParser.VarSelfOpContext ctx) {
         if (!variableExists(ctx.variable().getText())) {
-            System.err.println("Variable " + ctx.variable().getText() + " not declared!");
+            System.err.println(ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + " - Variable " + ctx.variable().getText() + " not declared!");
             return new Value(0);
         }
         
@@ -178,7 +178,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         for (int i = 1; i < ctx.getChildCount(); i += 2) {
             Value next = ctx.getChild(i + 1).accept(this);
             if (Objects.equals(ctx.getChild(i).accept(this), new Value(-1))) {
-                Value.multiply(next, new Value(-1));
+                next = Value.multiply(next, new Value(-1));
             }
             result = Value.add(result, next);
         }
@@ -252,7 +252,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
             try {
                 color = (Color) Color.class.getField(argument.getString()).get(null);
             } catch (Exception e) {
-                System.err.println("Invalid color!");
+                System.err.println(ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + " - Invalid color!");
             }
             panel.linecol(color);
         }
@@ -261,7 +261,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
             try {
                 color = (Color) Color.class.getField(argument.getString()).get(null);
             } catch (Exception e) {
-                System.err.println("Invalid color!");
+                System.err.println(ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + " - Invalid color!");
             }
             panel.changebg(color);
         }
@@ -341,7 +341,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         Value value2 = ctx.getChild(2).accept(this);
         
         if (value1.getType() != value2.getType()) {
-            System.err.println("Cannot compare values of different types!");
+            System.err.println(ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + " - Cannot compare values of different types!");
             return new Value(0);
         }
 
@@ -371,7 +371,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
     public Value visitConditionalStatement(NewLogoParser.ConditionalStatementContext ctx) {
         Value condition = ctx.value().accept(this);
         if (condition.getType() != Value.ValueType.BOOL) {
-            System.err.println("Invalid condition!");
+            System.err.println(ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + " - Invalid condition!");
             return new Value(0);
         }
         
@@ -405,7 +405,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
     public Value visitWhileLoop(NewLogoParser.WhileLoopContext ctx) {
         Value condition = ctx.value().accept(this);
         if (condition.getType() != Value.ValueType.BOOL) {
-            System.err.println("Invalid condition!");
+            System.err.println(ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + " - Invalid condition!");
             return new Value(0);
         }
         
@@ -425,7 +425,14 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
     @Override
     public Value visitStatementBlock(NewLogoParser.StatementBlockContext ctx) {
         variables.push(new Hashtable<>());
-        Value value = visitChildren(ctx);
+        Value value;
+        try {
+            value = visitChildren(ctx);
+        }
+        catch (Exception e) {
+            variables.pop();
+            throw e;
+        }
         variables.pop();
         return value;
     }
@@ -434,7 +441,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
     public Value visitFuncDefinition(NewLogoParser.FuncDefinitionContext ctx) {
         String funcName = ctx.VARIABLE().getText();
         if (functions.containsKey(funcName)) {
-            System.err.println("Function " + funcName + " already declared!");
+            System.err.println(ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + " - Function " + funcName + " already declared!");
             return new Value(1);
         }
         
@@ -445,7 +452,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         else if (ctx.varType().STRING() != null) returnType = Value.ValueType.STRING;
         else if (ctx.varType().CHAR() != null) returnType = Value.ValueType.CHAR;
         else {
-            System.err.println("Unknown type!");
+            System.err.println(ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + " - Unknown type!");
             return new Value(1);
         }
         
@@ -457,7 +464,7 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
             else if (varType.STRING() != null) parameters.add(new Pair<>(Value.ValueType.STRING, arg.variable().getText()));
             else if (varType.CHAR() != null) parameters.add(new Pair<>(Value.ValueType.CHAR, arg.variable().getText()));
             else {
-                System.err.println("Unknown type!");
+                System.err.println(ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + " - Unknown type!");
                 return new Value(1);
             }
         }
@@ -491,7 +498,9 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         Value result = null;
         
         try {
-            func.getBlock().accept(this);
+            for(NewLogoParser.StatementContext statement : func.getBlock().statement()) {
+                statement.accept(this);
+            }
         }
         catch (ReturnException e) {
             result = e.getReturnValue();
@@ -519,6 +528,9 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
 
     @Override
     public Value visitReturnStatement(NewLogoParser.ReturnStatementContext ctx) {
+        if (ctx.value() == null) {
+            throw new ReturnException(null);
+        }
         Value value = ctx.value().accept(this);
         throw new ReturnException(value);
     }

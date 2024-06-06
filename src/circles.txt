@@ -1,0 +1,53 @@
+void drawCircle(int radius){
+    repeat(36){
+        forward(radius);
+        rturn(10);
+    }
+}
+void drawCircleleft(int radius){
+    repeat(36){
+        forward(radius);
+        lturn(10);
+    }
+}
+
+int radius = 0;
+int step = 1; // Odstęp o który zwiększamy średnicę każdego kolejnego koła
+
+// Początkowe ustawienia
+changebg("pink");
+
+repeat(300) {
+    // Zwiększamy promień
+    radius = radius + step;
+
+    // Zmieniamy kolor koła
+    if (radius % 8 == 0) {
+            linecol("blue");
+        }
+        if (radius % 8 == 1) {
+            linecol("red");
+        }
+        if (radius % 8 == 2) {
+            linecol("green");
+        }
+        if (radius % 8 == 3) {
+            linecol("purple");
+        }
+        if (radius % 8 == 4) {
+            linecol("orange");
+        }
+        if (radius % 8 == 5) {
+            linecol("yellow");
+        }
+        if (radius % 8 == 6) {
+            linecol("cyan");
+        }
+        if (radius % 8 == 7) {
+            linecol("magenta");
+        }
+
+    // Rysujemy koło
+    drawCircle(radius);
+    drawCircleleft(radius);
+}
