@@ -18,7 +18,7 @@ atom
 
 brExpression: LBRACKET mathExpression RBRACKET;
 
-mulExpression: (atom | brExpression | variable) (mulOp (atom | brExpression | variable))*;
+mulExpression: (atom | brExpression | variable | functionCall) (mulOp (atom | brExpression | variable | functionCall))*;
 
 mathExpression: mulExpression (sumOp mulExpression)*;
 
@@ -51,7 +51,7 @@ compExpression
 
 logicBrExpression: LBRACKET logicExpression RBRACKET;
 
-logicAndExpression: NOT? (compExpression | logicBrExpression | boolConst | variable) (AND logicAndExpression)*;
+logicAndExpression: NOT? (compExpression | logicBrExpression | boolConst | variable | functionCall) (AND logicAndExpression)*;
 
 logicExpression: NOT? logicAndExpression (OR logicAndExpression)*;
 

@@ -3,17 +3,17 @@ void drawTree(int length, int level) {
         return;
     }
 
-    forward(length);
+    forward(10 * length);
     lturn(30);
     drawTree(length - 1, level - 1);
     rturn(60);
     drawTree(length - 1, level - 1);
     lturn(30);
-    forward(-1 * length);
+    forward(-10 * length);
 }
 
 linecol("blue");
-forward(-10);
+forward(-100);
 
 changebg("blue");
 

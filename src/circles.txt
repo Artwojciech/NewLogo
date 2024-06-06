@@ -17,10 +17,9 @@ int step = 1; // Odstęp o który zwiększamy średnicę każdego kolejnego koł
 // Początkowe ustawienia
 changebg("pink");
 
-repeat(300) {
+repeat(200) {
     // Zwiększamy promień
     radius = radius + step;
-
     // Zmieniamy kolor koła
     if (radius % 8 == 0) {
             linecol("blue");
@@ -32,7 +31,7 @@ repeat(300) {
             linecol("green");
         }
         if (radius % 8 == 3) {
-            linecol("purple");
+            linecol("pink");
         }
         if (radius % 8 == 4) {
             linecol("orange");

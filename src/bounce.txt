@@ -1,0 +1,9 @@
+rturn(45);
+linewidth(5);
+repeat(200) {
+    while(!isborder()) {
+        forward(10);
+    }
+    lturn(90);
+    forward(10);
+}

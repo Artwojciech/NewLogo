@@ -9,7 +9,7 @@ public class DrawingPanel extends JPanel {
     private int x; // Aktualna pozycja x kursora
     private int y; // Aktualna pozycja y kursora
     private double angle; // Aktualny kąt (w radianach)
-    private final int unitLength = 10; // Jednostka długości
+    private final int unitLength = 1; // Jednostka długości
     private Color lineColor = Color.BLACK; // Domyślny kolor linii
     private int lineWidth = 1; // Domyślna szerokość linii
     private Color backgroundColor = Color.WHITE; // Domyślny kolor tła

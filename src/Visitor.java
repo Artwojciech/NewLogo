@@ -227,7 +227,12 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         }
         
         if (ctx.function().drawingFunction() != null) {
-            return drawingFunction(ctx.function().drawingFunction(), arguments.getFirst());
+            if(ctx.function().drawingFunction().ISBORDER() != null) {
+                return new Value(panel.isBorder());
+            }
+            else {
+                return drawingFunction(ctx.function().drawingFunction(), arguments.getFirst());
+            }
         }
         else {
             return callFunction(ctx.function().VARIABLE().getText(), arguments);
@@ -268,9 +273,6 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         else if (ctx.LINEWIDTH() != null) {
             panel.linewidth(argument.getInt());
         }
-        else if (ctx.ISBORDER() != null) {
-            return new Value(panel.isBorder());
-        }
         else if (ctx.PRINT() != null) {
             System.out.println(argument.getValue());
         }
@@ -285,7 +287,14 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
 
     @Override
     public Value visitLogicAndExpression(NewLogoParser.LogicAndExpressionContext ctx) {
-        Value result = ctx.getChild(0).accept(this);
+        Value result;
+        if (ctx.NOT() != null) {
+            result = new Value(!ctx.getChild(1).accept(this).getBool());
+        }
+        else {
+            result = ctx.getChild(0).accept(this);
+        }
+        
         for (int i = 2; i < ctx.getChildCount(); i += 2) {
             Value next = ctx.getChild(i).accept(this);
             result = Value.multiply(result, next);
@@ -295,7 +304,14 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
 
     @Override
     public Value visitLogicExpression(NewLogoParser.LogicExpressionContext ctx) {
-        Value result = ctx.getChild(0).accept(this);
+        Value result;
+        if (ctx.NOT() != null) {
+            result = new Value(!ctx.getChild(1).accept(this).getBool());
+        }
+        else {
+            result = ctx.getChild(0).accept(this);
+        }
+
         for (int i = 2; i < ctx.getChildCount(); i += 2) {
             Value next = ctx.getChild(i).accept(this);
             result = Value.add(result, next);

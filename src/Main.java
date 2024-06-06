@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.TokenStream;
 class Main {
     public static void main(String[] args) {
         try {
-            InputStream inputStream = Main.class.getResourceAsStream("tree.txt");
+            InputStream inputStream = Main.class.getResourceAsStream("bounce.txt");
             if(inputStream == null) {
                 System.err.println("File not found!");
                 return;

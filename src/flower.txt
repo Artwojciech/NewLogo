@@ -1,0 +1,17 @@
+void drawCircle(int radius){
+    repeat(36){
+        forward(radius);
+        rturn(10);
+    }
+}
+
+int radius = 20; //wielkość koła
+
+linecol("pink");
+changebg("blue");
+
+repeat(36) {
+    // Rysujemy koło
+    drawCircle(radius);
+    rturn(10);
+}
