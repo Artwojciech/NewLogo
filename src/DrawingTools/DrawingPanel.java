@@ -195,7 +195,7 @@ public class DrawingPanel extends JPanel {
 
         // Rysowanie wszystkich linii
         Graphics2D g2 = (Graphics2D) g;
-        for (Line line : lines) {
+        for (Line line : new ArrayList<>(lines)) {
             g2.setColor(line.color);
             g2.setStroke(new BasicStroke(line.width));
             g2.drawLine(line.x1, line.y1, line.x2, line.y2);
