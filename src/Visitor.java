@@ -445,11 +445,9 @@ public class Visitor extends NewLogoParserBaseVisitor<Value> {
         try {
             value = visitChildren(ctx);
         }
-        catch (Exception e) {
+        finally {
             variables.pop();
-            throw e;
         }
-        variables.pop();
         return value;
     }
 
